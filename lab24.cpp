@@ -16,6 +16,20 @@ class ComplexNumber{
 		double angle();
 };
 
+double ComplexNumber::abs(){
+	double x=pow(real,2)+pow(imag,2);
+	return sqrt(x);
+}
+
+double ComplexNumber::angle(){
+	double  result;
+	double x = real;
+	double y = imag;
+  	
+  	result = atan (y/x) * 180 / 3.14159265;
+	return result;
+
+}
 ComplexNumber::ComplexNumber(double x = 0,double y = 0){
 	real = x; imag = y;
 }
@@ -26,6 +40,50 @@ ComplexNumber ComplexNumber::operator+(const ComplexNumber &c){
 
 ComplexNumber ComplexNumber::operator-(const ComplexNumber &c){
 	return ComplexNumber(real-c.real,imag-c.imag);
+}
+ComplexNumber ComplexNumber:: operator*(const ComplexNumber &c){
+	return ComplexNumber(real*c.real,imag*c.imag);
+}
+ComplexNumber ComplexNumber:: operator/(const ComplexNumber &c){
+	
+	return ComplexNumber(((real*c.real)+(imag*c.imag))/(pow(c.real,2)+pow(c.imag,2)),((imag*c.real)-(real*c.imag))/(pow(c.real,2)+pow(c.imag,2)));
+}
+ostream & operator<<(ostream &os ,const ComplexNumber &c ){
+	if(c.real>0 && c.imag>0) return os <<c.real<<"+"<<c.imag;
+	else if( c.imag<0) return os <<c.real<<c.imag;
+	
+
+	return os << "("<<c.real<<")+("<<c.imag << ")*i";
+}
+ComplexNumber operator+(double s ,const ComplexNumber &c){
+	return ComplexNumber(s+c.real,c.imag);
+}
+
+ComplexNumber operator-(double s ,const ComplexNumber &c){
+	return ComplexNumber(s-c.real,-c.imag);
+}
+ComplexNumber operator*(double s ,const ComplexNumber &c){
+	return ComplexNumber(s*c.real,s*c.imag);
+}
+ComplexNumber operator*(const ComplexNumber &c,double s ){
+	return ComplexNumber(s*c.real,s*c.imag);
+}
+ComplexNumber operator/(double s ,const ComplexNumber &c){
+	return ComplexNumber(s-c.real,s-c.imag);
+}
+bool ComplexNumber::operator==(const ComplexNumber &c){
+		if( real == c.real && imag==c.imag){
+				return true;
+		}else{
+				return false;
+		}
+}
+bool operator==(double s,const ComplexNumber &c){
+		if( s == c.real && s==c.imag){
+				return true;
+		}else{
+				return false;
+		}
 }
 
 //Write your code here
