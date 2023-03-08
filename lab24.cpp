@@ -26,7 +26,7 @@ double ComplexNumber::angle(){
 	double x = real;
 	double y = imag;
   	
-  	result = atan (y/x) * 180 / 3.14159265;
+  	result = atan2(y,x) * 180 / 3.14159265;
 	return result;
 
 }
@@ -42,18 +42,30 @@ ComplexNumber ComplexNumber::operator-(const ComplexNumber &c){
 	return ComplexNumber(real-c.real,imag-c.imag);
 }
 ComplexNumber ComplexNumber:: operator*(const ComplexNumber &c){
-	return ComplexNumber(real*c.real,imag*c.imag);
+	return ComplexNumber(real*c.real-imag*c.imag,real*c.imag+imag*c.real);
 }
 ComplexNumber ComplexNumber:: operator/(const ComplexNumber &c){
 	
 	return ComplexNumber(((real*c.real)+(imag*c.imag))/(pow(c.real,2)+pow(c.imag,2)),((imag*c.real)-(real*c.imag))/(pow(c.real,2)+pow(c.imag,2)));
 }
 ostream & operator<<(ostream &os ,const ComplexNumber &c ){
-	if(c.real>0 && c.imag>0) return os <<c.real<<"+"<<c.imag;
-	else if( c.imag<0) return os <<c.real<<c.imag;
-	
-
-	return os << "("<<c.real<<")+("<<c.imag << ")*i";
+	if(c.real != 0){
+		if(c.imag>0){
+			return os << c.real << "+" << c.imag << "i";
+		}else if(c.imag<0){
+			return os << c.real << c.imag << "i";
+		}else{
+			return os << c.real;
+		}
+	}else{
+		if(c.imag>0){
+			return os << c.imag << "i";
+		}else if(c.imag<0){
+			return os << c.imag << "i";
+		}else{
+			return os << c.real;
+		}
+	}
 }
 ComplexNumber operator+(double s ,const ComplexNumber &c){
 	return ComplexNumber(s+c.real,c.imag);
@@ -65,11 +77,9 @@ ComplexNumber operator-(double s ,const ComplexNumber &c){
 ComplexNumber operator*(double s ,const ComplexNumber &c){
 	return ComplexNumber(s*c.real,s*c.imag);
 }
-ComplexNumber operator*(const ComplexNumber &c,double s ){
-	return ComplexNumber(s*c.real,s*c.imag);
-}
-ComplexNumber operator/(double s ,const ComplexNumber &c){
-	return ComplexNumber(s-c.real,s-c.imag);
+
+ComplexNumber operator/(double x ,const ComplexNumber &c){
+	return ComplexNumber((x*c.real)/(pow(c.real,2)+pow(c.imag,2)),(-x*c.imag)/(pow(c.real,2)+pow(c.imag,2)));
 }
 bool ComplexNumber::operator==(const ComplexNumber &c){
 		if( real == c.real && imag==c.imag){
